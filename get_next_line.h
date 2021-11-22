@@ -13,5 +13,7 @@
 char	*get_next_line(int fd);
 char	*ft_strjoin(char *s1, char *s2);
 size_t	ft_strlen(char *s);
+char	*ft_create_line(int	*i, char	*buf, char	*word, int	*j);
+char	*ft_create_word(int	*i, char *buf, int fd, int *j);
 
 #endif

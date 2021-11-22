@@ -5,9 +5,7 @@ char	*get_next_line(int fd)
 	static char	buf[BUFFER_SIZE * (2 * (BUFFER_SIZE > 0) - 1) + 1];
 	static int	i;
 	char		*word;
-	char		*word2;
 	int			j;
-	long		count;
 
 	if (read(fd, (void *)0, 0) != 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -15,51 +13,16 @@ char	*get_next_line(int fd)
 	if (!word)
 		return (NULL);
 	word[0] = '\0';
-	if (buf[i] == '\n')
-		i++;
-	j = 0;
-	while (buf[i] == '\0' || buf[i] != '\n')
+	word = ft_create_word(&i, buf, fd, &j);
+	if (!word)
+		return (NULL);
+	if (j == 0 && buf[i] == '\n')
 	{
-		if (buf[i] == '\0')
-		{
-			count = read(fd, buf, BUFFER_SIZE);//number of readed bites
-			if (count <= 0)
-			{
-				if (word[0])
-					return (word);
-				free(word);
-				return (NULL);
-			}
-			buf[count] = '\0';
-			i = 0;
-		}
-		word = ft_create_line(&i, buf, word);
-	// 	j = 0;
-	// 	while (buf[i + j] && buf[i + j] != '\n')
-	// 		j++;
-	// 	word2 = malloc(j + 1 + (buf[i + j] == '\n'));
-	// 	if (!word2)
-	// 	{
-	// 		if (word[0])
-	// 			return (word);
-	// 		free(word);
-	// 		return (NULL);
-	// 	}
-	// 	j = 0;
-	// 	while (buf[i] && buf[i] != '\n')
-	// 		word2[j++] = buf[i++];
-	// 	if (buf[i] == '\n')
-	// 		word2[j++] = '\n';
-	// 	word2[j] = '\0';
-	// 	word = ft_strjoin(word, word2);
-	// }
-	// if (j == 0 && buf[i] == '\n')
-	// {
-	// 	free(word);
-	// 	word = malloc(2);
-	// 	word[0] = '\n';
-	// 	word[1] = '\0';
-	// }
+		free(word);
+		word = malloc(2);
+		word[0] = '\n';
+		word[1] = '\0';
+	}
 	if (word[0])
 		return (word);
 	free(word);
@@ -71,6 +34,10 @@ char	*get_next_line(int fd)
 // 	int fd;
 
 // 	fd = open("test.txt", O_RDONLY);
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
 // 	printf("%s", get_next_line(fd));
 // 	printf("%s", get_next_line(fd));
 // 	printf("%s", get_next_line(fd));

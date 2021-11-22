@@ -39,35 +39,55 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (newstr);
 }
 
-char	*ft_create_line(int	*i, char	*buf, char	*word)
+char	*ft_create_line(int	*i, char	*buf, char	*word, int	*j)
 {
-	int	j;
+	char	*word2;
 
-	j = 0;
-	while (buf[i + j] && buf[i + j] != '\n')
-		j++;
-	word2 = malloc(j + 1 + (buf[i + j] == '\n'));
+	*j = 0;
+	while (buf[*i + *j] && buf[*i + *j] != '\n')
+		(*j)++;
+	word2 = malloc(*j + 1 + (buf[*i + *j] == '\n'));
 	if (!word2)
 	{
 		if (word[0])
 			return (word);
-		free(word);//!!!
+		free(word);
 		return (NULL);
 	}
-	j = 0;
-	while (buf[i] && buf[i] != '\n')
-		word2[j++] = buf[i++];
-	if (buf[i] == '\n')
-		word2[j++] = '\n';
-	word2[j] = '\0';
+	*j = 0;
+	while (buf[*i] && buf[*i] != '\n')
+		word2[(*j)++] = buf[(*i)++];
+	if (buf[*i] == '\n')
+		word2[(*j)++] = '\n';
+	word2[*j] = '\0';
 	word = ft_strjoin(word, word2);
 	return (word);
 }
 
-	// if (j == 0 && buf[i] == '\n')
-	// {
-	// 	free(word);
-	// 	word = malloc(2);
-	// 	word[0] = '\n';
-	// 	word[1] = '\0';
-	// }
+char	*ft_create_word(int	*i, char *buf, int fd, int *j)
+{
+	long	count;
+	char	*word;
+
+	if (buf[*i] == '\n')
+		(*i)++;
+	*j = 0;
+	while (buf[*i] == '\0' || buf[*i] != '\n')
+	{
+		if (buf[*i] == '\0')
+		{
+			count = read(fd, buf, BUFFER_SIZE);
+			if (count <= 0)
+			{
+				if (word[0])
+					return (word);
+				free(word);
+				return (NULL);
+			}
+			buf[count] = '\0';
+			*i = 0;
+		}
+		word = ft_create_line(i, buf, word, j);
+	}
+	return (word);
+}
