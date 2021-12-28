@@ -81,25 +81,25 @@ char	*get_next_line(int fd)
 	return (ft_check(word));
 }
 
-// int main()
-// {
-// 	int fd;
-// 	fd = open("test.txt", O_RDONLY);
-// 	char *s = get_next_line(fd);
+int main()
+{
+	int fd;
+	fd = open("test.txt", O_RDONLY);
+	char *s = get_next_line(fd);
 // 	char *m = get_next_line(fd);
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
 // 	printf("%s", get_next_line(fd));
 // 	printf("%s", get_next_line(fd));
 // 	printf("%s", get_next_line(fd));
 // 	printf("%s", get_next_line(fd));
 // 	printf("%s", get_next_line(fd));
 // 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	free(s);
+// 	// printf("%s", get_next_line(fd));
+	free(s);
 // 	free(m);
-// 	close(fd);
-// } 
+	close(fd);
+} 

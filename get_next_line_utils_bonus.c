@@ -17,6 +17,8 @@ size_t	ft_strlen(char *s)
 	size_t	i;
 
 	i = 0;
+	if (!s)
+		return (0);
 	while (*s)
 	{
 		i++;
@@ -40,7 +42,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	newstr = (char *)malloc((len + 1) * sizeof(char));
 	if (!newstr)
 		return (NULL);
-	while (s1[j] != '\0')
+	while (s1 && s1[j] != '\0')
 		newstr[i++] = s1[j++];
 	j = 0;
 	while (s2[j] != '\0')
@@ -51,55 +53,24 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (newstr);
 }
 
-char	*ft_create_line(int	*i, char	*buf, char	*word, int	*j)
+char	*ft_create_line(int	*i, char *buf, char	*word, char *word2)
 {
-	char	*word2;
+	int		j;
 
-	*j = 0;
-	while (buf[*i + *j] && buf[*i + *j] != '\n')
-		(*j)++;
-	word2 = malloc(*j + 1 + (buf[*i + *j] == '\n'));
+	j = 0;
+	while (buf[*i + j] && buf[*i + j] != '\n')
+		j++;
+	word2 = (char *)malloc(sizeof(char) * (j + 1 + (buf[*i + j] == '\n')));
 	if (!word2)
 	{
-		if (word[0])
-			return (word);
 		free(word);
 		return (NULL);
 	}
-	*j = 0;
+	j = 0;
 	while (buf[*i] && buf[*i] != '\n')
-		word2[(*j)++] = buf[(*i)++];
+		word2[j++] = buf[(*i)++];
 	if (buf[*i] == '\n')
-		word2[(*j)++] = '\n';
-	word2[*j] = '\0';
-	word = ft_strjoin(word, word2);
-	return (word);
-}
-
-char	*ft_create_word(int	*i, char *buf, int fd, int *j)
-{
-	long	count;
-	char	*word;
-
-	if (buf[*i] == '\n')
-		(*i)++;
-	*j = 0;
-	while (buf[*i] == '\0' || buf[*i] != '\n')
-	{
-		if (buf[*i] == '\0')
-		{
-			count = read(fd, buf, BUFFER_SIZE);
-			if (count <= 0)
-			{
-				if (word[0])
-					return (word);
-				free(word);
-				return (NULL);
-			}
-			buf[count] = '\0';
-			*i = 0;
-		}
-		word = ft_create_line(i, buf, word, j);
-	}
-	return (word);
+		word2[j++] = '\n';
+	word2[j] = '\0';
+	return (word2);
 }
